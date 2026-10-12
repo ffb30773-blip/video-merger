@@ -1,57 +1,111 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="km">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>HanDub Studio — Chinese → Khmer</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Video Merger — បញ្ចូលវីដេអូ</title>
 <style>
-:root{--bg:#0b1020;--panel:#111a2d;--panel2:#16223a;--line:#263653;--text:#eef4ff;--muted:#9aabc7;--blue:#648cff;--cyan:#59d4d0;--green:#54d69a;--gold:#f3bd62}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 20% -10%,#1d3155 0,transparent 45%),var(--bg);color:var(--text);font:15px/1.5 Inter,system-ui,-apple-system,"Noto Sans Khmer",sans-serif}
-button,input,select{font:inherit}button{cursor:pointer}.app{max-width:1450px;margin:auto;padding:22px}.top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:24px}.brand{display:flex;gap:12px;align-items:center}.logo{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,#7c8cff,#42c9c5);font-size:24px;color:#071322;font-weight:900}.brand h1{font-size:21px;margin:0}.brand p{margin:2px 0;color:var(--muted);font-size:13px}.statuspill{border:1px solid #2b4a50;color:#7ce2ba;background:#112b2e;padding:8px 12px;border-radius:30px;font-size:12px}
-.layout{display:grid;grid-template-columns: minmax(0,1.6fr) minmax(320px,.8fr);gap:20px}.panel{background:linear-gradient(180deg,rgba(20,31,52,.96),rgba(14,23,40,.96));border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:0 18px 45px #0002}.sectionhead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}.sectionhead h2{font-size:16px;margin:0}.muted{color:var(--muted)}.small{font-size:12px}.drop{border:1.5px dashed #4b6690;border-radius:16px;background:#0c1629;padding:28px 18px;text-align:center;transition:.2s}.drop.drag{border-color:var(--cyan);background:#10242e}.drop .upicon{font-size:28px;margin-bottom:8px}.drop strong{display:block;font-size:16px}.drop p{margin:6px 0 14px;color:var(--muted);font-size:13px}.primary,.secondary,.ghost{border:0;border-radius:11px;padding:11px 15px;font-weight:700}.primary{background:linear-gradient(120deg,#7892ff,#5dcecf);color:#071323}.secondary{background:#243754;color:var(--text);border:1px solid #385173}.ghost{background:transparent;color:var(--muted);border:1px solid var(--line);padding:8px 11px}.queue{margin-top:20px}.queueitem{display:grid;grid-template-columns:42px minmax(0,1fr) auto;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid #26334a}.fileicon{width:42px;height:48px;background:#1e3150;border-radius:10px;display:grid;place-items:center;font-size:19px}.fname{font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.fmeta{font-size:12px;color:var(--muted);margin-top:3px}.badge{font-size:11px;padding:5px 8px;border-radius:20px;background:#27364f;color:#bdcbe2;white-space:nowrap}.badge.done{background:#153d32;color:#7be0b5}.badge.run{background:#3d321b;color:#ffd17e}.progress{height:5px;background:#273650;border-radius:9px;overflow:hidden;margin-top:9px}.progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--cyan));transition:width .4s}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:17px}.side{display:flex;flex-direction:column;gap:20px}.field{margin-bottom:16px}.field label{display:flex;justify-content:space-between;font-size:13px;font-weight:650;margin-bottom:8px}.field select,.field input[type=text]{width:100%;border:1px solid #344766;background:#0c1629;color:var(--text);padding:11px 12px;border-radius:10px;outline:none}.voicegrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.voice{border:1px solid #344766;background:#0c1629;border-radius:13px;padding:13px;text-align:left;color:var(--text)}.voice.active{border-color:var(--cyan);box-shadow:inset 0 0 0 1px var(--cyan);background:#102a35}.avatar{width:32px;height:32px;border-radius:10px;background:#293d63;display:grid;place-items:center;margin-bottom:7px}.voice b{display:block}.voice span{font-size:11px;color:var(--muted)}input[type=range]{width:100%;accent-color:var(--cyan)}.toggle{display:flex;align-items:center;gap:9px;color:var(--muted);font-size:13px}.toggle input{accent-color:var(--cyan)}.steps{display:grid;gap:12px}.step{display:flex;gap:12px;align-items:center}.stepno{width:30px;height:30px;border:1px solid #385071;background:#172641;border-radius:9px;display:grid;place-items:center;color:#a9c5ff;font-weight:800;font-size:12px}.step b{display:block;font-size:13px}.step small{color:var(--muted);font-size:11px}.preview{min-height:190px;border-radius:14px;background:linear-gradient(145deg,#10182b,#080d18);border:1px solid #26334b;display:grid;place-items:center;text-align:center;padding:20px}.preview .play{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;background:#243b61;font-size:20px;margin:0 auto 10px}.download{width:100%;margin-top:12px;background:#153b30;color:#8be7bd;border:1px solid #2b6b55;border-radius:12px;padding:12px;font-weight:750}.download:disabled{opacity:.45;cursor:not-allowed}.notice{border:1px solid #574a2d;background:#282315;color:#e8d19a;border-radius:12px;padding:12px;font-size:12px;margin-top:14px}.footer{color:#657693;text-align:center;font-size:11px;padding:20px 0 6px}
-@media(max-width:900px){.layout{grid-template-columns:1fr}.app{padding:14px}.panel{padding:16px}.top{align-items:flex-start}.statuspill{display:none}}@media(max-width:500px){.brand h1{font-size:17px}.queueitem{grid-template-columns:36px minmax(0,1fr) auto;gap:9px}.fileicon{width:36px;height:42px}.badge{font-size:10px}.voicegrid{gap:7px}}
-</style></head>
-<body><div class="app">
-<header class="top"><div class="brand"><div class="logo">汉</div><div><h1>HanDub Studio</h1><p>Chinese → Khmer AI Dubbing Workspace</p></div></div><div class="statuspill">● Studio ready · Sequential queue</div></header>
-<div class="layout"><main class="panel">
-<div class="sectionhead"><h2>វីដេអូរបស់អ្នក</h2><span class="muted small" id="count">0 files in queue</span></div>
-<div class="drop" id="drop"><div class="upicon">⇧</div><strong>ទម្លាក់វីដេអូទីនេះ ឬជ្រើសរើសឯកសារ</strong><p>MP4, MOV, WEBM, MKV · អាចជ្រើសច្រើនឯកសារក្នុងពេលតែមួយ</p><input id="files" type="file" accept="video/mp4,video/quicktime,video/webm,video/x-matroska" multiple hidden><button class="secondary" id="choose">＋ ជ្រើសរើសវីដេអូ</button></div>
-<div class="queue"><div class="sectionhead"><h2>បញ្ជីដំណើរការ</h2><button class="ghost" id="clear">សម្អាតបញ្ជី</button></div><div id="list"><div class="muted small" style="text-align:center;padding:24px">មិនទាន់មានវីដេអូទេ។ Upload ដើម្បីចាប់ផ្ដើម។</div></div></div>
-<div class="actions"><button class="primary" id="start">▶ Generate Dubbing</button><button class="secondary" id="pause">Ⅱ ផ្អាក Queue</button></div>
-<div class="notice">ចំណាំ៖ starter នេះបង្ហាញ Queue និងបង្កើតសេចក្ដីព្រាងបកប្រែតាម Gemini API។ ដើម្បីទទួលបានវីដេអូ Dubbing ពេញលេញ ត្រូវភ្ជាប់ Khmer TTS និង audio alignment/render pipeline នៅ backend។</div>
+:root{color-scheme:dark;--bg:#0b1020;--panel:#141b2e;--panel2:#1b2540;--text:#f3f6ff;--muted:#9eabc7;--accent:#7c6cff;--accent2:#39d6b4;--border:#2b3654}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top right,#20234c 0,transparent 34%),var(--bg);font-family:system-ui,-apple-system,"Noto Sans Khmer",sans-serif;color:var(--text);min-height:100vh}
+main{max-width:960px;margin:auto;padding:32px 18px 56px}.top{display:flex;align-items:center;gap:14px;margin-bottom:28px}.logo{width:48px;height:48px;border-radius:15px;background:linear-gradient(135deg,var(--accent),#b56bff);display:grid;place-items:center;font-size:23px;box-shadow:0 8px 28px #7c6cff40}h1{font-size:clamp(24px,4vw,34px);margin:0}.sub{color:var(--muted);margin:5px 0 0;font-size:14px}
+.layout{display:grid;grid-template-columns:1.15fr .85fr;gap:18px}.panel{background:#141b2eeF;border:1px solid var(--border);border-radius:20px;padding:22px;box-shadow:0 16px 40px #0002}.panel h2{font-size:17px;margin:0 0 16px}.drop{border:1.5px dashed #59658a;border-radius:16px;padding:28px 16px;text-align:center;background:#10172a;transition:.2s}.drop.drag{border-color:var(--accent2);background:#142a32}.drop .big{font-size:34px}.drop p{margin:8px 0;color:var(--muted);font-size:14px}.btn{border:0;border-radius:11px;padding:11px 16px;background:var(--accent);color:white;font-weight:700;font-size:14px;cursor:pointer}.btn:disabled{opacity:.45;cursor:not-allowed}.btn.secondary{background:#26314d;border:1px solid #3b496d}.btn.green{background:var(--accent2);color:#08211d}.fileinput{display:none}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.filelist{display:grid;gap:10px;margin-top:16px}.file{display:grid;grid-template-columns:38px 1fr auto;gap:10px;align-items:center;background:var(--panel2);border:1px solid var(--border);border-radius:13px;padding:10px}.thumb{width:38px;height:38px;border-radius:9px;background:#303b60;display:grid;place-items:center;font-size:18px}.fname{font-size:13px;font-weight:650;overflow-wrap:anywhere}.fmeta{font-size:11px;color:var(--muted);margin-top:3px}.actions{display:flex;gap:4px}.iconbtn{background:#26314d;color:white;border:1px solid #3b496d;border-radius:8px;padding:6px 8px;cursor:pointer}.iconbtn:disabled{opacity:.25}.empty{color:var(--muted);text-align:center;padding:22px 8px;font-size:13px}.field{display:grid;gap:8px;margin:14px 0}.field label{font-size:13px;color:#cbd4ea}.field select,.field input{width:100%;background:#0f1629;color:var(--text);border:1px solid var(--border);padding:11px;border-radius:10px;font:inherit}.hint{font-size:12px;color:var(--muted);line-height:1.6}.progress{height:8px;background:#27314c;border-radius:99px;overflow:hidden;margin:12px 0}.bar{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .2s}.status{font-size:13px;color:var(--muted);line-height:1.6;min-height:42px}.notice{border:1px solid #3b496d;background:#10172a;padding:12px;border-radius:12px;font-size:12px;line-height:1.6;color:#c5d0e8;margin-top:14px}.output{margin-top:18px}.output video{width:100%;max-height:300px;border-radius:12px;background:#05070c;margin-top:12px}.footer{text-align:center;color:#72809f;font-size:11px;margin-top:20px}
+@media(max-width:720px){.layout{grid-template-columns:1fr}.panel{padding:17px}main{padding-top:22px}}
+</style>
+</head>
+<body>
+<main>
+  <header class="top"><div class="logo">▶</div><div><h1>Video Merger</h1><p class="sub">បញ្ចូលវីដេអូច្រើន ឱ្យក្លាយជាវីដេអូតែមួយ</p></div></header>
+  <div class="layout">
+    <section class="panel">
+      <h2>១. បន្ថែមវីដេអូ</h2>
+      <div class="drop" id="drop">
+        <div class="big">🎬</div>
+        <strong>ទាញឯកសារមកដាក់ទីនេះ</strong>
+        <p>ឬជ្រើសរើសវីដេអូពីឧបករណ៍របស់អ្នក</p>
+        <button class="btn" id="choose">+ ជ្រើសរើសវីដេអូ</button>
+        <input class="fileinput" id="files" type="file" accept="video/*" multiple>
+      </div>
+      <div class="row" style="justify-content:space-between;margin-top:18px"><span id="count" class="hint">មិនទាន់មានវីដេអូ</span><button class="btn secondary" id="clear" disabled>លុបទាំងអស់</button></div>
+      <div id="filelist" class="filelist"><div class="empty">វីដេអូដែលអ្នកជ្រើសរើស នឹងបង្ហាញនៅទីនេះ។<br>ប្រើប៊ូតុង ↑ ↓ ដើម្បីប្តូរលំដាប់។</div></div>
+    </section>
+    <section class="panel">
+      <h2>២. កំណត់ការបញ្ចូល</h2>
+      <div class="field"><label for="resolution">ទំហំវីដេអូចេញ</label><select id="resolution"><option value="original">រក្សាទំហំដើម</option><option value="1080">1080p</option><option value="720">720p</option><option value="480">480p</option></select></div>
+      <div class="field"><label for="fit">របៀបបង្ហាញ</label><select id="fit"><option value="contain">រក្សាសមាមាត្រដើម (មិនកាត់រូប)</option><option value="cover">កាត់ឱ្យពេញស៊ុម (Crop)</option></select></div>
+      <div class="field"><label for="filename">ឈ្មោះឯកសារលទ្ធផល</label><input id="filename" value="merged-video.mp4" maxlength="80"></div>
+      <button class="btn green" id="merge" style="width:100%;padding:14px" disabled>▶ បញ្ចូលវីដេអូ</button>
+      <div class="progress"><div class="bar" id="bar"></div></div>
+      <div class="status" id="status">បន្ថែមវីដេអូយ៉ាងហោចណាស់ ២ ដើម្បីចាប់ផ្តើម។</div>
+      <div class="notice"><strong>ចំណាំ៖</strong> ការបញ្ចូលដំណើរការនៅក្នុង browser របស់អ្នក។ ការប្រើលើកដំបូងត្រូវការអ៊ីនធឺណិត ដើម្បីទាញយកម៉ាស៊ីន FFmpeg; ឯកសារធំៗអាចប្រើ RAM ច្រើន និងចំណាយពេលយូរ។</div>
+      <div class="output" id="output"></div>
+    </section>
+  </div>
+  <div class="footer">ឯកសារវីដេអូត្រូវបានដំណើរការនៅលើឧបករណ៍របស់អ្នក • មិនមានការផ្ញើឯកសារទៅ server របស់កម្មវិធីនេះទេ</div>
 </main>
-<aside class="side">
-<section class="panel"><div class="sectionhead"><h2>ការកំណត់សំឡេង</h2><span class="muted small">GLOBAL</span></div>
-<div class="field"><label>សំឡេងអ្នកនិយាយ</label><div class="voicegrid"><button class="voice active" data-voice="Piseth"><div class="avatar">♂</div><b>Piseth</b><span>សំឡេងបុរស · តួឯក</span></button><button class="voice" data-voice="Sreymom"><div class="avatar">♀</div><b>Sreymom</b><span>សំឡេងស្ត្រី · តួឯក</span></button></div></div>
-<div class="field"><label>ល្បឿននិយាយ <strong id="speedval">1.00×</strong></label><input id="speed" type="range" min=".75" max="1.25" step=".05" value="1"><div class="muted small" style="display:flex;justify-content:space-between"><span>យឺត</span><span>ធម្មជាតិ</span><span>លឿន</span></div></div>
-<div class="field"><label>រចនាប័ទ្មបកប្រែ</label><select id="style"><option value="historical">ចិនបុរាណ · រក្សាបរិបទរឿង</option><option value="natural">ខ្មែរធម្មជាតិ ងាយស្ដាប់</option><option value="dramatic">បែបរឿងភាគ · អារម្មណ៍ខ្លាំង</option></select></div>
-<div class="field"><label>ទំហំវីដេអូ</label><select id="ratio"><option>រក្សាទំហំដើម</option><option>9:16 · Shorts / TikTok</option><option>16:9 · YouTube</option></select></div>
-<label class="toggle"><input type="checkbox" id="keepbg" checked> រក្សាសំឡេងបរិយាកាសដើម (នៅពេលភ្ជាប់ audio mixer)</label>
-<label class="toggle" style="margin-top:10px"><input type="checkbox" id="subs" checked> បង្កើត subtitle ខ្មែរ (.SRT)</label>
-</section>
-<section class="panel"><div class="sectionhead"><h2>ដំណើរការដោយស្វ័យប្រវត្តិ</h2><span class="muted small">PIPELINE</span></div><div class="steps">
-<div class="step"><div class="stepno">01</div><div><b>ស្គាល់សំឡេងចិន</b><small>Audio extraction & transcript</small></div></div>
-<div class="step"><div class="stepno">02</div><div><b>បកប្រែជាភាសាខ្មែរ</b><small>បរិបទរឿង និងពាក្យបុរាណ</small></div></div>
-<div class="step"><div class="stepno">03</div><div><b>បង្កើតសំឡេងខ្មែរ</b><small>ជ្រើសសំឡេង និងល្បឿន</small></div></div>
-<div class="step"><div class="stepno">04</div><div><b>ផ្គុំសំឡេង និងវីដេអូ</b><small>Timing, mix, render MP4</small></div></div></div></section>
-<section class="panel"><div class="sectionhead"><h2>Preview / លទ្ធផលចុងក្រោយ</h2><span class="muted small" id="previewStatus">WAITING</span></div><div class="preview" id="preview"><div><div class="play">▶</div><b>វីដេអូដែលបានបញ្ចប់</b><div class="muted small">លទ្ធផលនឹងបង្ហាញនៅទីនេះ</div></div></div><button class="download" id="download" disabled>↓ Download Final Video</button><div class="muted small" style="margin-top:8px" id="resultNote">រង់ចាំការដំណើរការ</div></section>
-</aside></div><div class="footer">HanDub Studio · Secure API key on server · Prototype starter</div></div>
-<script>
-const $=s=>document.querySelector(s), filesEl=$('#files'), list=$('#list');
-let jobs=[], chosenVoice='Piseth', running=false, paused=false, activeId=null;
-function fmt(bytes){return bytes>1e9?(bytes/1e9).toFixed(2)+' GB':bytes>1e6?(bytes/1e6).toFixed(1)+' MB':(bytes/1e3).toFixed(0)+' KB'}
-function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function render(){ $('#count').textContent=`${jobs.length} files in queue`; if(!jobs.length){list.innerHTML='<div class="muted small" style="text-align:center;padding:24px">មិនទាន់មានវីដេអូទេ។ Upload ដើម្បីចាប់ផ្ដើម។</div>';return}
-list.innerHTML=jobs.map((j,i)=>`<div class="queueitem"><div class="fileicon">▣</div><div style="min-width:0"><div class="fname">${esc(j.file.name)}</div><div class="fmeta">${fmt(j.file.size)} · ${j.status==='done'?'បញ្ចប់':j.status==='running'?'កំពុងដំណើរការ':j.status==='error'?'មានបញ្ហា':j.status==='translation_ready'?'បកប្រែរួច (មិនទាន់ Dubbing)':'រង់ចាំ'} </div><div class="progress"><span style="width:${j.progress}%"></span></div></div><span class="badge ${j.status==='done'?'done':j.status==='running'?'run':''}">${j.status==='done'?'100%':j.status==='running'?j.progress+'%':j.status==='error'?'ERROR':j.status==='translation_ready'?'DRAFT':'QUEUED'}</span></div>`).join('')}
-function addFiles(fileList){for(const file of fileList){if(!file.type.startsWith('video/'))continue;jobs.push({id:crypto.randomUUID(),file,status:'queued',progress:0,serverFile:null})}render()}
-$('#choose').onclick=()=>filesEl.click();filesEl.onchange=e=>{addFiles(e.target.files);filesEl.value=''};
-$('#drop').ondragover=e=>{e.preventDefault();$('#drop').classList.add('drag')};$('#drop').ondragleave=()=>$('#drop').classList.remove('drag');$('#drop').ondrop=e=>{e.preventDefault();$('#drop').classList.remove('drag');addFiles(e.dataTransfer.files)};
-document.querySelectorAll('.voice').forEach(b=>b.onclick=()=>{chosenVoice=b.dataset.voice;document.querySelectorAll('.voice').forEach(x=>x.classList.toggle('active',x===b))});
-$('#speed').oninput=e=>$('#speedval').textContent=Number(e.target.value).toFixed(2)+'×';
-$('#clear').onclick=()=>{if(running){alert('សូមរង់ចាំ Queue បញ្ចប់ ឬផ្អាកសិន។');return}jobs=[];render()};
-$('#pause').onclick=()=>{paused=!paused;$('#pause').textContent=paused?'▶ បន្ត Queue':'Ⅱ ផ្អាក Queue'};
-const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-async function uploadJob(j){const fd=new FormData();fd.append('videos',j.file);const r=await fetch('/api/upload',{method:'POST',body:fd});const d=await r.json();if(!r.ok)throw Error(d.error||'Upload failed');j.serverFile=d.files[0];}
-async function processJob(j){j.status='running';j.progress=4;activeId=j.id;render();try{await uploadJob(j);j.progress=15;render();const body={filename:j.serverFile.filename,originalName:j.file.name,voice:chosenVoice,speed:Number($('#speed').value),style:$('#style').value,keepBackground:$('#keepbg').checked,subtitles:$('#subs').checked};const r=await fetch('/api/process/'+j.id,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const d=await r.json();if(!r.ok)throw Error(d.error||'Process failed');j.translation=d.translation;j.result=d;j.status='translation_ready';j.progress=100;$('#previewStatus').textContent='TRANSLATION READY';$('#preview').innerHTML='<div><div class="play">✓</div><b>សេចក្ដីព្រាងបកប្រែរួចរាល់</b><div class="muted small">ចុចដើម្បីមើលអត្ថបទបកប្រែ</div><textarea readonly style="margin-top:12px;width:100%;height:100px;background:#0b1322;color:#dce7fa;border:1px solid #33445f;border-radius:8px;padding:9px">'+esc(j.translation||'')+'</textarea></div>';$('#download').disabled=true;$('#resultNote').textContent='មិនទាន់មាន Final Dub MP4 — ត្រូវភ្ជាប់ Khmer TTS + audio alignment';}catch(e){j.status='error';j.error=e.message;alert(j.file.name+': '+e.message)}finally{render()}}
-$('#start').onclick=async()=>{if(running)return;if(!jobs.some(j=>j.status==='queued'||j.status==='error')){alert('សូម Upload វីដេអូជាមុន។');return}running=true;for(const j of jobs){if(paused)while(paused)await sleep(300);if(j.status!=='queued'&&j.status!=='error')continue;await processJob(j)}running=false;activeId=null;};
-$('#download').onclick=()=>{const j=jobs.find(x=>x.id===activeId);if(j?.result?.finalVideoReady&&j.result.previewVideo){const a=document.createElement('a');a.href=j.result.previewVideo;a.download='final-dub.mp4';a.click()}};
-</script></body></html>
+<script type="module">
+import { FFmpeg } from 'https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/esm/index.js';
+import { fetchFile, toBlobURL } from 'https://cdn.jsdelivr.net/npm/@ffmpeg/util@0.12.1/dist/esm/index.js';
+const $=id=>document.getElementById(id);
+const input=$('files'), list=$('filelist'), drop=$('drop'), merge=$('merge'), status=$('status'), bar=$('bar');
+let videos=[], ffmpeg=null, busy=false;
+const fmt=n=>n<1024*1024?(n/1024).toFixed(0)+' KB':(n/1024/1024).toFixed(1)+' MB';
+function render(){
+ $('count').textContent=videos.length?`${videos.length} វីដេអូ • ${fmt(videos.reduce((a,v)=>a+v.file.size,0))}`:'មិនទាន់មានវីដេអូ';
+ $('clear').disabled=!videos.length||busy; merge.disabled=videos.length<2||busy;
+ if(!videos.length){list.innerHTML='<div class="empty">វីដេអូដែលអ្នកជ្រើសរើស នឹងបង្ហាញនៅទីនេះ។<br>ប្រើប៊ូតុង ↑ ↓ ដើម្បីប្តូរលំដាប់។</div>';return}
+ list.innerHTML='';
+ videos.forEach((v,i)=>{
+  const el=document.createElement('div');el.className='file';
+  const thumb=document.createElement('div');thumb.className='thumb';thumb.textContent='▶';
+  const info=document.createElement('div');const name=document.createElement('div');name.className='fname';name.textContent=v.file.name;const meta=document.createElement('div');meta.className='fmeta';meta.textContent=`វីដេអូ ${i+1} • ${fmt(v.file.size)}`;info.append(name,meta);
+  const actions=document.createElement('div');actions.className='actions';
+  [['↑',i===0,()=>move(i,-1)],['↓',i===videos.length-1,()=>move(i,1)],['✕',false,()=>removeAt(i)]].forEach(([label,disabled,fn])=>{const b=document.createElement('button');b.className='iconbtn';b.textContent=label;b.disabled=disabled||busy;b.title=label==='✕'?'លុបវីដេអូ':'ប្តូរលំដាប់';b.onclick=fn;actions.append(b)});
+  el.append(thumb,info,actions);list.append(el);
+ });
+}
+function addFiles(files){for(const file of files){if(file.type.startsWith('video/'))videos.push({file,id:crypto.randomUUID()})}render();if(videos.length>=2)status.textContent='រួចរាល់។ ពិនិត្យលំដាប់វីដេអូ រួចចុច “បញ្ចូលវីដេអូ”។'}
+function move(i,d){[videos[i],videos[i+d]]=[videos[i+d],videos[i]];render()}
+function removeAt(i){videos.splice(i,1);render()}
+$('choose').onclick=()=>input.click();input.onchange=e=>{addFiles([...e.target.files]);input.value=''};
+$('clear').onclick=()=>{videos=[];render();$('output').innerHTML='';bar.style.width='0%'};
+['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('drag')}));
+['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('drag')}));
+drop.addEventListener('drop',e=>addFiles([...e.dataTransfer.files]));
+function setBusy(v){busy=v;render();$('choose').disabled=v}
+async function getFFmpeg(){
+ if(ffmpeg)return ffmpeg;
+ status.textContent='កំពុងផ្ទុក FFmpeg…';
+ ffmpeg=new FFmpeg();
+ ffmpeg.on('progress',({progress})=>{bar.style.width=Math.round(progress*100)+'%';status.textContent='កំពុងបញ្ចូលវីដេអូ… '+Math.round(progress*100)+'%'});
+ ffmpeg.on('log',({message})=>{if(message.includes('Error'))status.textContent='កំហុស៖ '+message.slice(0,180)});
+ const base='https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.6/dist/umd';
+ await ffmpeg.load({coreURL:await toBlobURL(base+'/ffmpeg-core.js','text/javascript'),wasmURL:await toBlobURL(base+'/ffmpeg-core.wasm','application/wasm')});
+ return ffmpeg;
+}
+merge.onclick=async()=>{
+ if(videos.length<2||busy)return;
+ setBusy(true);$('output').innerHTML='';bar.style.width='0%';
+ try{
+  const engine=await getFFmpeg(), names=[];
+  for(let i=0;i<videos.length;i++){const name=`input${i}.mp4`;await engine.writeFile(name,await fetchFile(videos[i].file));names.push(name)}
+  await engine.writeFile('concat.txt',new TextEncoder().encode(names.map(n=>`file '${n}'`).join('\n')));
+  const res=$('resolution').value, fit=$('fit').value;
+  let args=['-f','concat','-safe','0','-i','concat.txt','-c:v','libx264','-preset','ultrafast','-crf','23','-c:a','aac','-b:a','128k','-movflags','+faststart'];
+  if(res!=='original'){
+   const h=Number(res), vf=fit==='cover'?`scale=-2:${h},crop=trunc(iw/2)*2:trunc(ih/2)*2`:`scale=-2:${h}:force_original_aspect_ratio=decrease,pad=ceil(iw/2)*2:ceil(ih/2)*2`;
+   args.splice(args.indexOf('-c:v'),0,'-vf',vf);
+  }
+  const out='result.mp4';args.push(out);
+  status.textContent='កំពុងបញ្ចូលវីដេអូ…';await engine.exec(args);
+  const data=await engine.readFile(out);const blob=new Blob([data.buffer],{type:'video/mp4'});const url=URL.createObjectURL(blob);
+  const name=($('filename').value.trim()||'merged-video.mp4').replace(/[\\/:*?"<>|]/g,'-');const safe=name.toLowerCase().endsWith('.mp4')?name:name+'.mp4';
+  const wrap=document.createElement('div');const a=document.createElement('a');a.className='btn green';a.textContent='⬇ ទាញយកវីដេអូដែលបានបញ្ចូល';a.href=url;a.download=safe;
+  const vid=document.createElement('video');vid.controls=true;vid.src=url;
+  wrap.append(a,vid);$('output').append(wrap);bar.style.width='100%';status.textContent='បានបញ្ចូលវីដេអូជោគជ័យ! ចុចប៊ូតុងខាងក្រោមដើម្បីទាញយក។';
+ }catch(err){console.error(err);status.textContent='មិនអាចបញ្ចូលវីដេអូបានទេ។ សូមសាកល្បង browser ថ្មី ឬឯកសារតូចជាងនេះ។ ('+(err?.message||'Error')+')'}
+ finally{setBusy(false)}
+};
+render();
+</script>
+</body>
+</html>
