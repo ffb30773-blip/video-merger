@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Video Merger — បញ្ចូលវីដេអូ</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1020;--panel:#141b2e;--panel2:#1b2540;--text:#f3f6ff;--muted:#9eabc7;--accent:#7c6cff;--accent2:#39d6b4;--border:#2b3654}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top right,#20234c 0,transparent 34%),var(--bg);font-family:system-ui,-apple-system,"Noto Sans Khmer",sans-serif;color:var(--text);min-height:100vh}
+main{max-width:960px;margin:auto;padding:32px 18px 56px}.top{display:flex;align-items:center;gap:14px;margin-bottom:28px}.logo{width:48px;height:48px;border-radius:15px;background:linear-gradient(135deg,var(--accent),#b56bff);display:grid;place-items:center;font-size:23px;box-shadow:0 8px 28px #7c6cff40}h1{font-size:clamp(24px,4vw,34px);margin:0}.sub{color:var(--muted);margin:5px 0 0;font-size:14px}
+.layout{display:grid;grid-template-columns:1.15fr .85fr;gap:18px}.panel{background:#141b2eeF;border:1px solid var(--border);border-radius:20px;padding:22px;box-shadow:0 16px 40px #0002}.panel h2{font-size:17px;margin:0 0 16px}.drop{border:1.5px dashed #59658a;border-radius:16px;padding:28px 16px;text-align:center;background:#10172a;transition:.2s}.drop.drag{border-color:var(--accent2);background:#142a32}.drop .big{font-size:34px}.drop p{margin:8px 0;color:var(--muted);font-size:14px}.btn{border:0;border-radius:11px;padding:11px 16px;background:var(--accent);color:white;font-weight:700;font-size:14px;cursor:pointer}.btn:disabled{opacity:.45;cursor:not-allowed}.btn.secondary{background:#26314d;border:1px solid #3b496d}.btn.green{background:var(--accent2);color:#08211d}.fileinput{display:none}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.filelist{display:grid;gap:10px;margin-top:16px}.file{display:grid;grid-template-columns:38px 1fr auto;gap:10px;align-items:center;background:var(--panel2);border:1px solid var(--border);border-radius:13px;padding:10px}.thumb{width:38px;height:38px;border-radius:9px;background:#303b60;display:grid;place-items:center;font-size:18px}.fname{font-size:13px;font-weight:650;overflow-wrap:anywhere}.fmeta{font-size:11px;color:var(--muted);margin-top:3px}.actions{display:flex;gap:4px}.iconbtn{background:#26314d;color:white;border:1px solid #3b496d;border-radius:8px;padding:6px 8px;cursor:pointer}.iconbtn:disabled{opacity:.25}.empty{color:var(--muted);text-align:center;padding:22px 8px;font-size:13px}.field{display:grid;gap:8px;margin:14px 0}.field label{font-size:13px;color:#cbd4ea}.field select,.field input{width:100%;background:#0f1629;color:var(--text);border:1px solid var(--border);padding:11px;border-radius:10px;font:inherit}.hint{font-size:12px;color:var(--muted);line-height:1.6}.progress{height:8px;background:#27314c;border-radius:99px;overflow:hidden;margin:12px 0}.bar{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .2s}.status{font-size:13px;color:var(--muted);line-height:1.6;min-height:42px}.notice{border:1px solid #3b496d;background:#10172a;padding:12px;border-radius:12px;font-size:12px;line-height:1.6;color:#c5d0e8;margin-top:14px}.output{margin-top:18px}.output video{width:100%;max-height:300px;border-radius:12px;background:#05070c;margin-top:12px}.footer{text-align:center;color:#72809f;font-size:11px;margin-top:20px}
+@media(max-width:720px){.layout{grid-template-columns:1fr}.panel{padding:17px}main{padding-top:22px}}
+</style>
+</head>
+<body>
+<main>
+  <header class="top"><div class="logo">▶</div><div><h1>Video Merger</h1><p class="sub">បញ្ចូលវីដេអូច្រើន ឱ្យក្លាយជាវីដេអូតែមួយ</p></div></header>
+  <div class="layout">
+    <section class="panel">
+      <h2>១. បន្ថែមវីដេអូ</h2>
+      <div class="drop" id="drop">
+        <div class="big">🎬</div>
+        <strong>ទាញឯកសារមកដាក់ទីនេះ</strong>
+        <p>ឬជ្រើសរើសវីដេអូពីឧបករណ៍របស់អ្នក</p>
+        <button class="btn" id="choose">+ ជ្រើសរើសវីដេអូ</button>
+        <input class="fileinput" id="files" type="file" accept="video/*" multiple>
+      </div>
+      <div class="row" style="justify-content:space-between;margin-top:18px"><span id="count" class="hint">មិនទាន់មានវីដេអូ</span><button class="btn secondary" id="clear" disabled>លុបទាំងអស់</button></div>
+      <div id="filelist" class="filelist"><div class="empty">វីដេអូដែលអ្នកជ្រើសរើស នឹងបង្ហាញនៅទីនេះ។<br>ប្រើប៊ូតុង ↑ ↓ ដើម្បីប្តូរលំដាប់។</div></div>
+    </section>
+    <section class="panel">
+      <h2>២. កំណត់ការបញ្ចូល</h2>
+      <div class="field"><label for="resolution">ទំហំវីដេអូចេញ</label><select id="resolution"><option value="original">រក្សាទំហំដើម</option><option value="1080">1080p</option><option value="720">720p</option><option value="480">480p</option></select></div>
+      <div class="field"><label for="fit">របៀបបង្ហាញ</label><select id="fit"><option value="contain">រក្សាសមាមាត្រដើម (មិនកាត់រូប)</option><option value="cover">កាត់ឱ្យពេញស៊ុម (Crop)</option></select></div>
+      <div class="field"><label for="filename">ឈ្មោះឯកសារលទ្ធផល</label><input id="filename" value="merged-video.mp4" maxlength="80"></div>
+      <button class="btn green" id="merge" style="width:100%;padding:14px" disabled>▶ បញ្ចូលវីដេអូ</button>
+      <div class="progress"><div class="bar" id="bar"></div></div>
+      <div class="status" id="status">បន្ថែមវីដេអូយ៉ាងហោចណាស់ ២ ដើម្បីចាប់ផ្តើម។</div>
+      <div class="notice"><strong>ចំណាំ៖</strong> ការបញ្ចូលដំណើរការនៅក្នុង browser របស់អ្នក។ ការប្រើលើកដំបូងត្រូវការអ៊ីនធឺណិត ដើម្បីទាញយកម៉ាស៊ីន FFmpeg; ឯកសារធំៗអាចប្រើ RAM ច្រើន និងចំណាយពេលយូរ។</div>
+      <div class="output" id="output"></div>
+    </section>
+  </div>
+  <div class="footer">ឯកសារវីដេអូត្រូវបានដំណើរការនៅលើឧបករណ៍របស់អ្នក • មិនមានការផ្ញើឯកសារទៅ server របស់កម្មវិធីនេះទេ</div>
+</main>
+<script type="module">
+import { FFmpeg } from 'https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/esm/index.js';
+import { fetchFile, toBlobURL } from 'https://cdn.jsdelivr.net/npm/@ffmpeg/util@0.12.1/dist/esm/index.js';
+const $=id=>document.getElementById(id);
+const input=$('files'), list=$('filelist'), drop=$('drop'), merge=$('merge'), status=$('status'), bar=$('bar');
+let videos=[], ffmpeg=null, busy=false;
+const fmt=n=>n<1024*1024?(n/1024).toFixed(0)+' KB':(n/1024/1024).toFixed(1)+' MB';
+function render(){
+ $('count').textContent=videos.length?`${videos.length} វីដេអូ • ${fmt(videos.reduce((a,v)=>a+v.file.size,0))}`:'មិនទាន់មានវីដេអូ';
+ $('clear').disabled=!videos.length||busy; merge.disabled=videos.length<2||busy;
+ if(!videos.length){list.innerHTML='<div class="empty">វីដេអូដែលអ្នកជ្រើសរើស នឹងបង្ហាញនៅទីនេះ។<br>ប្រើប៊ូតុង ↑ ↓ ដើម្បីប្តូរលំដាប់។</div>';return}
+ list.innerHTML='';
+ videos.forEach((v,i)=>{
+  const el=document.createElement('div');el.className='file';
+  const thumb=document.createElement('div');thumb.className='thumb';thumb.textContent='▶';
+  const info=document.createElement('div');const name=document.createElement('div');name.className='fname';name.textContent=v.file.name;const meta=document.createElement('div');meta.className='fmeta';meta.textContent=`វីដេអូ ${i+1} • ${fmt(v.file.size)}`;info.append(name,meta);
+  const actions=document.createElement('div');actions.className='actions';
+  [['↑',i===0,()=>move(i,-1)],['↓',i===videos.length-1,()=>move(i,1)],['✕',false,()=>removeAt(i)]].forEach(([label,disabled,fn])=>{const b=document.createElement('button');b.className='iconbtn';b.textContent=label;b.disabled=disabled||busy;b.title=label==='✕'?'លុបវីដេអូ':'ប្តូរលំដាប់';b.onclick=fn;actions.append(b)});
+  el.append(thumb,info,actions);list.append(el);
+ });
+}
+function addFiles(files){for(const file of files){if(file.type.startsWith('video/'))videos.push({file,id:crypto.randomUUID()})}render();if(videos.length>=2)status.textContent='រួចរាល់។ ពិនិត្យលំដាប់វីដេអូ រួចចុច “បញ្ចូលវីដេអូ”។'}
+function move(i,d){[videos[i],videos[i+d]]=[videos[i+d],videos[i]];render()}
+function removeAt(i){videos.splice(i,1);render()}
+$('choose').onclick=()=>input.click();input.onchange=e=>{addFiles([...e.target.files]);input.value=''};
+$('clear').onclick=()=>{videos=[];render();$('output').innerHTML='';bar.style.width='0%'};
+['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('drag')}));
+['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('drag')}));
+drop.addEventListener('drop',e=>addFiles([...e.dataTransfer.files]));
+function setBusy(v){busy=v;render();$('choose').disabled=v}
+async function getFFmpeg(){
+ if(ffmpeg)return ffmpeg;
+ status.textContent='កំពុងផ្ទុក FFmpeg…';
+ ffmpeg=new FFmpeg();
+ ffmpeg.on('progress',({progress})=>{bar.style.width=Math.round(progress*100)+'%';status.textContent='កំពុងបញ្ចូលវីដេអូ… '+Math.round(progress*100)+'%'});
+ ffmpeg.on('log',({message})=>{if(message.includes('Error'))status.textContent='កំហុស៖ '+message.slice(0,180)});
+ const base='https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.6/dist/umd';
+ await ffmpeg.load({coreURL:await toBlobURL(base+'/ffmpeg-core.js','text/javascript'),wasmURL:await toBlobURL(base+'/ffmpeg-core.wasm','application/wasm')});
+ return ffmpeg;
+}
+merge.onclick=async()=>{
+ if(videos.length<2||busy)return;
+ setBusy(true);$('output').innerHTML='';bar.style.width='0%';
+ try{
+  const engine=await getFFmpeg(), names=[];
+  for(let i=0;i<videos.length;i++){const name=`input${i}.mp4`;await engine.writeFile(name,await fetchFile(videos[i].file));names.push(name)}
+  await engine.writeFile('concat.txt',new TextEncoder().encode(names.map(n=>`file '${n}'`).join('\n')));
+  const res=$('resolution').value, fit=$('fit').value;
+  let args=['-f','concat','-safe','0','-i','concat.txt','-c:v','libx264','-preset','ultrafast','-crf','23','-c:a','aac','-b:a','128k','-movflags','+faststart'];
+  if(res!=='original'){
+   const h=Number(res), vf=fit==='cover'?`scale=-2:${h},crop=trunc(iw/2)*2:trunc(ih/2)*2`:`scale=-2:${h}:force_original_aspect_ratio=decrease,pad=ceil(iw/2)*2:ceil(ih/2)*2`;
+   args.splice(args.indexOf('-c:v'),0,'-vf',vf);
+  }
+  const out='result.mp4';args.push(out);
+  status.textContent='កំពុងបញ្ចូលវីដេអូ…';await engine.exec(args);
+  const data=await engine.readFile(out);const blob=new Blob([data.buffer],{type:'video/mp4'});const url=URL.createObjectURL(blob);
+  const name=($('filename').value.trim()||'merged-video.mp4').replace(/[\\/:*?"<>|]/g,'-');const safe=name.toLowerCase().endsWith('.mp4')?name:name+'.mp4';
+  const wrap=document.createElement('div');const a=document.createElement('a');a.className='btn green';a.textContent='⬇ ទាញយកវីដេអូដែលបានបញ្ចូល';a.href=url;a.download=safe;
+  const vid=document.createElement('video');vid.controls=true;vid.src=url;
+  wrap.append(a,vid);$('output').append(wrap);bar.style.width='100%';status.textContent='បានបញ្ចូលវីដេអូជោគជ័យ! ចុចប៊ូតុងខាងក្រោមដើម្បីទាញយក។';
+ }catch(err){console.error(err);status.textContent='មិនអាចបញ្ចូលវីដេអូបានទេ។ សូមសាកល្បង browser ថ្មី ឬឯកសារតូចជាងនេះ។ ('+(err?.message||'Error')+')'}
+ finally{setBusy(false)}
+};
+render();
+</script>
+</body>
+</html>
